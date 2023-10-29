@@ -69,9 +69,12 @@ export default function PagesOpen({ countries, mode, handleMode,selectedCountrie
                       {selectedCountry.borders && selectedCountry.borders.length > 0 ? (
                           selectedCountry.borders.map((borderCode)=> {
                             const borderCountry = countries.find((country) => country.cca3 === borderCode);
+                            // // Simpan borderCode di sessionStorage
+                            // sessionStorage.setItem('selectedBorderCode', JSON.stringify(borderCountry));
                             return (
                               <div key={borderCode} className={`text-center p-2 ${mode ? 'bg-Dark-Blue' : 'bg-white shadow-xl'}`}>
-                                <p>{borderCountry ? borderCountry.name.common : 'No Borders Country'}</p>
+                                <p>{borderCountry ? borderCountry.name.common : borderCode }</p>
+                                {/* <p>{borderCode}</p> */}
                               </div>
                             );
                           })
