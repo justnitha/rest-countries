@@ -4,6 +4,7 @@ import { faMagnifyingGlass, faChevronDown } from '@fortawesome/free-solid-svg-ic
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Scroll from '../components/ScrollToTop';
 
 
 const getFilterItems = (query, countries) => {
@@ -58,92 +59,93 @@ export default function HomePage({mode,handleMode, setSelectedCountries,countrie
   return (
     <div>
       <Navbar mode={mode} handleMode={handleMode}/>
-    <div className={`px-10 ${mode ? 'bg-Very-Dark-Blue text-white ' :'bg-Very-Light-Gray text-Very-Dark-Blue-100'} ${query ? 'h-screen overflow-hidden' : ''}`}>
-      <form action="" className="py-14 flex items-center justify-between">
-        <div className={`w-[30%] flex items-center gap-2 px-4 py-2 ${mode?'bg-Dark-Blue' : 'bg-white shadow-xl'}`}>
-          <label htmlFor="">
-            <FontAwesomeIcon icon={faMagnifyingGlass} />
-          </label>
-          <input
-            type="text"
-            placeholder="Search a country...."
-            className={`w-full outline-none ${mode ? 'bg-Dark-Blue' : 'bg-white'}`}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-        </div>
-        <div className="w-[19%] relative">
-          <div
-            className={`flex items-center justify-between  px-4 py-2 cursor-pointer ${mode ?'bg-Dark-Blue':'bg-white shadow-xl'} `}
-            onClick={() => setFilterRegion(!filterRegion)}
-          >
-            {selectedRegion ? (<p>{selectedRegion}</p>) : (<p>Select Region</p>)}
-            <FontAwesomeIcon icon={faChevronDown} />
+      <div className={`scroll-smooth px-5 sm:px-10 lg:px-10 ${mode ? 'bg-Very-Dark-Blue text-white ' :'bg-Very-Light-Gray text-Very-Dark-Blue-100'} ${query ? 'h-screen overflow-hidden' : ''}`}>
+        <div  className="py-5 sm:py-10 lg:py-14 lg:flex sm:flex items-center justify-between">
+          <div className={`lg:w-[30%] sm:w-[46%] flex items-center gap-2 px-4 py-2 ${mode?'bg-Dark-Blue' : 'bg-white shadow-xl'}`}>
+            <label htmlFor="">
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </label>
+            <input
+              type="text"
+              placeholder="Search a country...."
+              className={`w-full outline-none ${mode ? 'bg-Dark-Blue' : 'bg-white'}`}
+              onChange={(e) => setQuery(e.target.value)}
+            />
           </div>
-
-          {filterRegion  && (
-            <div className={`absolute w-full mt-1 py-2 ${mode ? 'bg-Dark-Blue' : 'bg-white shadow-xl'}`}>
-              <p
-                className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
-                onClick={() => handleFilterRegion('Select Region')}
-              >
-                All
-              </p>
-              <p
-                className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
-                onClick={() => handleFilterRegion('Africa')}
-              >
-                Africa
-              </p>
-              <p
-                className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
-                onClick={() => handleFilterRegion('Americas')}
-              >
-                America
-              </p>
-              <p
-                className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
-                onClick={() => handleFilterRegion('Asia')}
-              >
-                Asia
-              </p>
-              <p
-                className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
-                onClick={() => handleFilterRegion('Europe')}
-              >
-                Europa
-              </p>
-              <p
-                className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
-                onClick={() => handleFilterRegion('Oceania')}
-              >
-               Oceania
-              </p>
-            </div>
-          )}
-        </div>
-      </form>
-      
-      <div className="grid grid-cols-4 gap-10 pb-10">
-        {filteredByRegion.map((item, key) => (
-          <Link to={`/country/${item.name.official}`}>
-            <div 
-              key={key} 
-              className={`${mode? 'bg-Dark-Blue' : 'bg-white shadow-xl'} pb-5 cursor-pointer`}
-              onClick={()=>handleOpenPages(item)}
+          <div className="mt-10 sm:mt-0 lg:mt-0 w-[60%] sm:w-[35%] lg:w-[19%] relative">
+            <div
+              className={`flex items-center justify-between  px-4 py-2 cursor-pointer ${mode ?'bg-Dark-Blue':'bg-white shadow-xl'} `}
+              onClick={() => setFilterRegion(!filterRegion)}
             >
-              <img src={item.flags.png} alt={item.flags.alt} className="h-[10rem] w-full" />
-              <p className="hidden">{item.name.common}</p>
-              <h2 className="mt-4 font-bold text-[16px] px-6">{item.name.official}</h2>
-              <div className="mt-4 px-6">
-                <p>Population : <span>{item.population.toLocaleString()}</span></p>
-                <p>Region : <span>{item.region}</span></p>
-                <p>Capital : <span>{item.capital}</span></p>
-              </div>
+              {selectedRegion ? (<p>{selectedRegion}</p>) : (<p>Select Region</p>)}
+              <FontAwesomeIcon icon={faChevronDown} />
             </div>
-          </Link>
-        ))}
+
+            {filterRegion  && (
+              <div className={`absolute w-full mt-1 py-2 ${mode ? 'bg-Dark-Blue' : 'bg-white shadow-xl'}`}>
+                <p
+                  className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
+                  onClick={() => handleFilterRegion('Select Region')}
+                >
+                  All
+                </p>
+                <p
+                  className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
+                  onClick={() => handleFilterRegion('Africa')}
+                >
+                  Africa
+                </p>
+                <p
+                  className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
+                  onClick={() => handleFilterRegion('Americas')}
+                >
+                  America
+                </p>
+                <p
+                  className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
+                  onClick={() => handleFilterRegion('Asia')}
+                >
+                  Asia
+                </p>
+                <p
+                  className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
+                  onClick={() => handleFilterRegion('Europe')}
+                >
+                  Europa
+                </p>
+                <p
+                  className="cursor-pointer hover:bg-Very-Dark-Blue hover:text-white px-4 w-full text-start"
+                  onClick={() => handleFilterRegion('Oceania')}
+                >
+                Oceania
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+        
+        <div className="sm:grid lg:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 pb-10">
+          {filteredByRegion.map((item, key) => (
+            <Link to={`/country/${item.name.official}`}>
+              <div 
+                key={key} 
+                className={`${mode? 'bg-Dark-Blue' : 'bg-white shadow-xl'} pb-5 cursor-pointer mt-10 lg:mt-0`}
+                onClick={()=>handleOpenPages(item)}
+              >
+                <img src={item.flags.png} alt={item.flags.alt} className="h-[10rem] w-full" />
+                <p className="hidden">{item.name.common}</p>
+                <h2 className="mt-4 font-bold text-[16px] sm:text-xl lg:text-lg px-6">{item.name.official}</h2>
+                <div className="mt-4 px-6">
+                  <p>Population : <span>{item.population.toLocaleString()}</span></p>
+                  <p>Region : <span>{item.region}</span></p>
+                  <p>Capital : <span>{item.capital}</span></p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
+      <Scroll/>
     </div>
   );
 }

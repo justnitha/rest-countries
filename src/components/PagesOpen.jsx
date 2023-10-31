@@ -9,31 +9,30 @@ export default function PagesOpen({ countries, mode, handleMode,selectedCountrie
 
   const {name} = useParams()
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-  });
+  // useEffect(() => {
+  //   document.body.style.overflow = 'hidden';
+  // });
   
   const selectedCountry = JSON.parse(sessionStorage.getItem('selectedCountry'));
   console.log('Negara 23', selectedCountry);
 
   return (
-    <div className={`h-screen ${mode ? 'bg-Very-Dark-Blue text-white ' : 'bg-Very-Light-Gray text-Very-Dark-Blue-100'}`}>
-      <Navbar mode={mode} handleMode={handleMode} />
+    <div className={`scroll-smooth pb-16 sm:pb-24 md:pb-[14rem] lg:pb-0 sm:text-2xl md:text-2xl lg:text-lg lg:h-screen  ${mode ? 'bg-Very-Dark-Blue text-white ' : 'bg-Very-Light-Gray text-Very-Dark-Blue-100'}`}>
+      <Navbar mode={mode} handleMode={handleMode}  />
      
       {selectedCountry.name.official === name ? (
         <div>
           <Link to={'/'}>
-            <button className={`${mode ? 'bg-Dark-Blue' : 'bg-white shadow-xl text-Very-Dark-Blue-100'} py-2 w-[10%] my-12 rounded-md ms-16`}>
+            <button className={`${mode ? 'bg-Dark-Blue' : 'bg-white shadow-xl text-Very-Dark-Blue-100'}  py-2 w-[25%] lg:w-[10%] my-7 md:mt-10 lg:my-12 rounded-md lg:ms-16 ms-[28px] lg:text-base`}>
               <FontAwesomeIcon icon={faArrowLeft} /> Back
             </button>
           </Link>
-          <div className="grid grid-cols-2 gap-10 items-center capitalize px-16">
-                 <img src={selectedCountry.flags.png} alt={selectedCountry.flags.alt} className={`w-[90%] h-[24rem] ${mode ? '' : 'shadow-xl'}`} />
-                 <div>
-                  <p> {selectedCountry.name.official}</p>
+          <div className={`lg:grid grid-cols-2 gap-10 items-center capitalize lg:px-16  px-7 `}>
+                 <img src={selectedCountry.flags.png} alt={selectedCountry.flags.alt} className={`w-full lg:w-[90%] lg:h-[24rem] md:mt-10 lg:mt-0 ${mode ? '' : 'shadow-xl'}`} />
+                 <div className='mt-12 lg:mt-0'>
                    <h1 className="text-3xl font-bold mb-7">{selectedCountry.name.common}</h1>
-                   <div className="grid grid-cols-2 gap-10">
-                     <div className="text-lg">
+                   <div className="lg:grid grid-cols-2 gap-10">
+                     <div className="text-lg sm:text-2x md:text-2xl lg:text-lg">
                        <h1>
                          Native Name: <span>{Object.values(selectedCountry.name.nativeName)[Object.values(selectedCountry.name.nativeName).length - 1].common}</span>
                        </h1>
@@ -50,7 +49,7 @@ export default function PagesOpen({ countries, mode, handleMode,selectedCountrie
                          Capital : <span>{selectedCountry.capital}</span>
                        </p>
                      </div>
-                     <div className="text-lg">
+                     <div className="text-lg sm:text-2xl md:text-2xl lg:text-lg mt-7 lg:mt-0 ">
                        <p>
                          Top Level Domain : <span>{selectedCountry.tld}</span>
                        </p>
@@ -63,9 +62,9 @@ export default function PagesOpen({ countries, mode, handleMode,selectedCountrie
                      </div>
                    </div>
   
-                   <div className="flex gap-6 mt-10 items-start capitalize">
-                     <p className="text-lg">Borders Countries:</p>
-                     <div className="grid grid-cols-3 gap-5">
+                   <div className="lg:flex gap-6 mt-10 items-start capitalize lg:text-lg">
+                     <p className="text-lg sm:text-2xl md:text-2xl lg:text-lg">Borders Countries:</p>
+                     <div className="grid grid-cols-3 gap-5 mt-5 lg:mt-0">
                       {selectedCountry.borders && selectedCountry.borders.length > 0 ? (
                           selectedCountry.borders.map((borderCode)=> {
                             const borderCountry = countries.find((country) => country.cca3 === borderCode);
@@ -79,7 +78,7 @@ export default function PagesOpen({ countries, mode, handleMode,selectedCountrie
                             );
                           })
                       ):(
-                        <p className={`text-center p-2 ${mode ? 'bg-Dark-Blue' : 'bg-white shadow-xl'}`}>No Borders Country</p>
+                        <p className={`text-center p-2  ${mode ? 'bg-Dark-Blue' : 'bg-white shadow-xl'}`}>No Borders Country</p>
                       )}
                     </div>
                   </div>
