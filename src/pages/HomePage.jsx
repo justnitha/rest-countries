@@ -6,6 +6,20 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Scroll from '../components/ScrollToTop';
 
+const generateCountryCards = (mode, numberOfCards) => {
+  const cards = [];
+  for (let i = 0; i < numberOfCards; i++) {
+    cards.push(
+      <div key={i} className={`${mode ? 'bg-white rounded' : 'bg-slate-700 rounded'} pb-5 cursor-pointer mt-10 lg:mt-0 overflow-hidden`}>
+        <div className="h-[10rem] bg-slate-700 rounded w-full " />
+        <h2 className="h-2 bg-slate-20 rounded "></h2>
+        <div className="px-6 bg-slate-200 w-[80%] mx-auto h-3 rounded"></div>
+        <div className="px-6 bg-slate-200 w-[80%] mx-auto h-3 rounded mt-3"></div>
+      </div>
+    );
+  }
+  return cards;
+};
 
 const getFilterItems = (query, countries) => {
   if (!query) {
@@ -21,6 +35,10 @@ export default function HomePage({mode,handleMode, setSelectedCountries,countrie
   const [query, setQuery] = useState('');
   const [filterRegion, setFilterRegion] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('Select Region');
+  const [loading, setLoading] = useState(true)
+
+  const numberOfCards = 8;
+  const countryCards = generateCountryCards(mode, numberOfCards);
 
   useEffect(() => {
     axios
@@ -28,9 +46,12 @@ export default function HomePage({mode,handleMode, setSelectedCountries,countrie
       .then((resp) => {
         setCountries(resp.data);
         localStorage.setItem('countriesData', JSON.stringify(resp.data));
+        debugger
+        setLoading(false);
       })
       .catch(function (error) {
         console.log(error);
+        setLoading(false);
       });
   }, [setCountries]);
   
@@ -54,8 +75,7 @@ export default function HomePage({mode,handleMode, setSelectedCountries,countrie
     setSelectedCountries(itemCommon)
     sessionStorage.setItem('selectedCountry', JSON.stringify(itemCommon));
   }
-  
-      
+
   return (
     <div>
       <Navbar mode={mode} handleMode={handleMode}/>
@@ -80,6 +100,7 @@ export default function HomePage({mode,handleMode, setSelectedCountries,countrie
               {selectedRegion ? (<p>{selectedRegion}</p>) : (<p>Select Region</p>)}
               <FontAwesomeIcon icon={faChevronDown} />
             </div>
+            
 
             {filterRegion  && (
               <div className={`absolute w-full mt-1 py-2 ${mode ? 'bg-Dark-Blue' : 'bg-white shadow-xl'}`}>
@@ -123,7 +144,12 @@ export default function HomePage({mode,handleMode, setSelectedCountries,countrie
             )}
           </div>
         </div>
-        
+      {loading ? (
+          <div className=" animate-pulse overflow-hidden sm:grid lg:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 pb-10">
+            {countryCards}
+          </div>
+        ) : (
+          <>
         <div className="sm:grid lg:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 pb-10">
           {filteredByRegion.map((item, key) => (
             <Link to={`/country/${item.name.official}`}>
@@ -143,9 +169,11 @@ export default function HomePage({mode,handleMode, setSelectedCountries,countrie
               </div>
             </Link>
           ))}
+           <Scroll/>
         </div>
+        </>)}
       </div>
-      <Scroll/>
+     
     </div>
   );
 }
